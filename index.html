@@ -1,0 +1,995 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pareto AI — Biblioteca Completa de Cursos</title>
+  <meta name="description" content="Acesse todos os cursos gravados da Pareto: agentes de IA, multiagentes, automações, formação executiva e mais. Uma assinatura, acesso completo." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    /* ─────────────────────────────────────────
+       TOKENS
+    ───────────────────────────────────────── */
+    :root {
+      --lime:     #CBEC2E;
+      --lime-dim: #A8C41E;
+      --g900:     #111110;
+      --g600:     #444440;
+      --g400:     #7A7A74;
+      --g200:     #D4D4CE;
+      --g100:     #EAEAE4;
+      --off:      #F8F6F3;
+      --white:    #FFFFFF;
+      --font-head: 'Playfair Display', Georgia, serif;
+      --font-body: 'DM Sans', system-ui, sans-serif;
+    }
+
+    /* ─────────────────────────────────────────
+       RESET & BASE
+    ───────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body);
+      font-weight: 300;
+      color: var(--g900);
+      background: var(--white);
+      -webkit-font-smoothing: antialiased;
+    }
+    img { display: block; max-width: 100%; }
+    a { color: inherit; text-decoration: none; }
+
+    /* ─────────────────────────────────────────
+       LAYOUT
+    ───────────────────────────────────────── */
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+    section { padding: 96px 0; }
+    section.tight { padding: 64px 0; }
+
+    /* ─────────────────────────────────────────
+       TYPOGRAPHY
+    ───────────────────────────────────────── */
+    h1, h2, h3 { font-family: var(--font-head); color: var(--g900); line-height: 1.15; }
+    h1 { font-size: clamp(2.4rem, 5vw, 3.8rem); }
+    h2 { font-size: clamp(1.8rem, 3.5vw, 2.6rem); }
+    h3 { font-size: clamp(1.1rem, 2vw, 1.35rem); font-weight: 600; }
+    p  { font-size: 1rem; line-height: 1.7; color: var(--g400); }
+    .label {
+      font-family: var(--font-body);
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--g400);
+    }
+    .accent { color: var(--lime); }
+
+    /* ─────────────────────────────────────────
+       BUTTONS
+    ───────────────────────────────────────── */
+    .btn-primary {
+      display: inline-block;
+      font-family: var(--font-body);
+      font-size: 0.8rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      background: var(--g900);
+      color: var(--lime);
+      padding: 16px 36px;
+      border: none;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+    .btn-primary:hover { opacity: 0.85; }
+    .btn-secondary {
+      display: inline-block;
+      font-family: var(--font-body);
+      font-size: 0.8rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      background: transparent;
+      color: var(--g600);
+      padding: 15px 36px;
+      border: 1.5px solid var(--g200);
+      cursor: pointer;
+      transition: border-color 0.2s;
+    }
+    .btn-secondary:hover { border-color: var(--g400); }
+
+    /* ─────────────────────────────────────────
+       DIVIDER
+    ───────────────────────────────────────── */
+    .divider {
+      width: 48px;
+      height: 2px;
+      background: var(--lime);
+      margin: 20px 0 28px;
+    }
+
+    /* ─────────────────────────────────────────
+       NAV
+    ───────────────────────────────────────── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--white);
+      border-bottom: 1px solid var(--g100);
+      padding: 18px 0;
+    }
+    nav .container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .nav-logo {
+      font-family: var(--font-head);
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--g900);
+    }
+    .nav-logo span { color: var(--lime-dim); }
+
+    /* ─────────────────────────────────────────
+       HERO
+    ───────────────────────────────────────── */
+    #hero {
+      background: var(--g900);
+      padding: 120px 0 96px;
+    }
+    #hero .label { color: var(--lime-dim); margin-bottom: 20px; }
+    #hero h1 { color: var(--white); max-width: 760px; }
+    #hero p  { color: #A8A8A0; max-width: 580px; margin-top: 20px; font-size: 1.05rem; }
+    .hero-actions { display: flex; align-items: center; gap: 20px; margin-top: 44px; flex-wrap: wrap; }
+    .hero-stats {
+      display: flex;
+      gap: 48px;
+      margin-top: 72px;
+      padding-top: 48px;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      flex-wrap: wrap;
+    }
+    .stat-item {}
+    .stat-number {
+      font-family: var(--font-head);
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: var(--white);
+      line-height: 1;
+    }
+    .stat-number span { color: var(--lime); }
+    .stat-label {
+      font-size: 0.82rem;
+      color: #A8A8A0;
+      margin-top: 6px;
+      letter-spacing: 0.04em;
+    }
+
+    /* ─────────────────────────────────────────
+       PROBLEMA
+    ───────────────────────────────────────── */
+    #problema { background: var(--white); }
+    #problema .inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: start;
+    }
+    #problema h2 { margin-bottom: 24px; }
+    #problema p + p { margin-top: 16px; }
+    .quote-block {
+      background: var(--off);
+      padding: 40px;
+      border-left: 3px solid var(--lime);
+    }
+    .quote-text {
+      font-family: var(--font-head);
+      font-size: 1.3rem;
+      color: var(--g900);
+      line-height: 1.5;
+      font-style: italic;
+    }
+    .quote-author { font-size: 0.82rem; color: var(--g400); margin-top: 20px; letter-spacing: 0.04em; }
+
+    /* ─────────────────────────────────────────
+       O QUE VOCÊ ACESSA
+    ───────────────────────────────────────── */
+    #combo { background: var(--off); }
+    #combo .section-header { text-align: center; max-width: 640px; margin: 0 auto 64px; }
+    #combo .section-header p { margin-top: 16px; }
+    .combo-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      align-items: start;
+    }
+    .combo-block {}
+    .combo-block-title {
+      font-family: var(--font-head);
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--g900);
+      margin-bottom: 4px;
+    }
+    .combo-block-sub {
+      font-size: 0.8rem;
+      color: var(--lime-dim);
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+    }
+    .course-list { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+    .course-item {
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+    }
+    .course-icon {
+      flex-shrink: 0;
+      width: 32px;
+      height: 32px;
+      background: var(--g900);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 2px;
+    }
+    .course-icon svg { width: 14px; height: 14px; fill: var(--lime); }
+    .course-info {}
+    .course-name {
+      font-size: 0.92rem;
+      font-weight: 500;
+      color: var(--g900);
+      line-height: 1.3;
+    }
+    .course-meta {
+      font-size: 0.78rem;
+      color: var(--g400);
+      margin-top: 3px;
+    }
+    .bonus-badge {
+      display: inline-block;
+      background: var(--lime);
+      color: var(--g900);
+      font-size: 0.68rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 3px 10px;
+      margin-bottom: 20px;
+    }
+
+    /* ─────────────────────────────────────────
+       INSTRUTORES
+    ───────────────────────────────────────── */
+    #instrutores { background: var(--white); }
+    #instrutores .section-header { max-width: 580px; margin-bottom: 56px; }
+    .instructors-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 32px;
+    }
+    .instructor-card {
+      padding: 32px;
+      border: 1px solid var(--g100);
+    }
+    .instructor-name {
+      font-family: var(--font-head);
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--g900);
+      margin-bottom: 4px;
+    }
+    .instructor-role {
+      font-size: 0.78rem;
+      color: var(--lime-dim);
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+    .instructor-bio { font-size: 0.88rem; line-height: 1.65; }
+
+    /* ─────────────────────────────────────────
+       NUMEROS
+    ───────────────────────────────────────── */
+    #numeros { background: var(--g900); }
+    #numeros .section-header { max-width: 520px; }
+    #numeros .section-header .label { color: var(--lime-dim); }
+    #numeros h2 { color: var(--white); margin-bottom: 16px; }
+    #numeros p  { color: #A8A8A0; }
+    .numbers-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 40px;
+      margin-top: 64px;
+    }
+    .number-card { border-top: 2px solid rgba(255,255,255,0.08); padding-top: 24px; }
+    .number-val {
+      font-family: var(--font-head);
+      font-size: 2.6rem;
+      font-weight: 700;
+      color: var(--white);
+      line-height: 1;
+    }
+    .number-val span { color: var(--lime); }
+    .number-desc { font-size: 0.85rem; color: #A8A8A0; margin-top: 10px; line-height: 1.5; }
+
+    /* ─────────────────────────────────────────
+       PARA QUEM
+    ───────────────────────────────────────── */
+    #paraquem { background: var(--off); }
+    #paraquem .section-header { max-width: 560px; margin-bottom: 56px; }
+    .profiles-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 28px;
+    }
+    .profile-card {
+      background: var(--white);
+      padding: 36px;
+    }
+    .profile-tag {
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--lime-dim);
+      margin-bottom: 14px;
+    }
+    .profile-title {
+      font-family: var(--font-head);
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--g900);
+      margin-bottom: 12px;
+    }
+    .profile-desc { font-size: 0.88rem; line-height: 1.65; }
+
+    /* ─────────────────────────────────────────
+       PRICING
+    ───────────────────────────────────────── */
+    #pricing { background: var(--white); }
+    #pricing .section-header { text-align: center; max-width: 560px; margin: 0 auto 64px; }
+    .pricing-card {
+      max-width: 560px;
+      margin: 0 auto;
+      border: 1.5px solid var(--g200);
+      padding: 56px;
+    }
+    .pricing-tag {
+      display: inline-block;
+      background: var(--lime);
+      color: var(--g900);
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 5px 14px;
+      margin-bottom: 28px;
+    }
+    .pricing-title {
+      font-family: var(--font-head);
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: var(--g900);
+      margin-bottom: 8px;
+    }
+    .pricing-sub { font-size: 0.92rem; color: var(--g400); margin-bottom: 36px; }
+    .pricing-items { list-style: none; display: flex; flex-direction: column; gap: 14px; margin-bottom: 40px; }
+    .pricing-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      font-size: 0.92rem;
+      color: var(--g600);
+    }
+    .pricing-item svg { flex-shrink: 0; margin-top: 2px; }
+    .pricing-cta { text-align: center; margin-top: 16px; }
+    .pricing-note { font-size: 0.78rem; color: var(--g400); text-align: center; margin-top: 16px; letter-spacing: 0.03em; }
+
+    /* ─────────────────────────────────────────
+       FAQ
+    ───────────────────────────────────────── */
+    #faq { background: var(--off); }
+    #faq .section-header { max-width: 500px; margin-bottom: 56px; }
+    .faq-list { max-width: 720px; display: flex; flex-direction: column; gap: 0; }
+    .faq-item { border-top: 1px solid var(--g200); }
+    .faq-item:last-child { border-bottom: 1px solid var(--g200); }
+    .faq-question {
+      width: 100%;
+      background: none;
+      border: none;
+      padding: 24px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: var(--g900);
+      text-align: left;
+      gap: 16px;
+    }
+    .faq-question svg { flex-shrink: 0; transition: transform 0.2s; }
+    .faq-question[aria-expanded="true"] svg { transform: rotate(45deg); }
+    .faq-answer { font-size: 0.9rem; line-height: 1.75; color: var(--g400); padding-bottom: 24px; max-height: 0; overflow: hidden; transition: max-height 0.3s ease; }
+    .faq-answer.open { max-height: 300px; }
+
+    /* ─────────────────────────────────────────
+       CTA FINAL
+    ───────────────────────────────────────── */
+    #cta-final {
+      background: var(--g900);
+      padding: 120px 0;
+      text-align: center;
+    }
+    #cta-final .label { color: var(--lime-dim); margin-bottom: 20px; }
+    #cta-final h2 { color: var(--white); max-width: 640px; margin: 0 auto 20px; }
+    #cta-final p  { color: #A8A8A0; max-width: 480px; margin: 0 auto 44px; }
+
+    /* ─────────────────────────────────────────
+       FOOTER
+    ───────────────────────────────────────── */
+    footer {
+      background: var(--white);
+      border-top: 1px solid var(--g100);
+      padding: 36px 0;
+    }
+    footer .container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .footer-logo {
+      font-family: var(--font-head);
+      font-size: 1.1rem;
+      font-weight: 700;
+    }
+    .footer-copy { font-size: 0.8rem; color: var(--g400); }
+
+    /* ─────────────────────────────────────────
+       RESPONSIVE
+    ───────────────────────────────────────── */
+    @media (max-width: 900px) {
+      #problema .inner { grid-template-columns: 1fr; gap: 48px; }
+      .combo-grid { grid-template-columns: 1fr; }
+      .instructors-grid { grid-template-columns: 1fr 1fr; }
+      .numbers-grid { grid-template-columns: 1fr 1fr; }
+      .profiles-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 600px) {
+      section { padding: 72px 0; }
+      .instructors-grid { grid-template-columns: 1fr; }
+      .numbers-grid { grid-template-columns: 1fr 1fr; }
+      .hero-stats { gap: 28px; }
+      .pricing-card { padding: 36px 28px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="container">
+    <div class="nav-logo">Pareto<span>.</span></div>
+    <a href="#pricing" class="btn-primary" style="padding:12px 28px;">Quero acesso</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="container">
+    <p class="label">Pareto AI — Biblioteca de Cursos</p>
+    <h1>12 anos de conhecimento.<br>Agora em <span class="accent">um único acesso.</span></h1>
+    <p>Os mesmos conteúdos que formaram mais de 160 especialistas dentro da Pareto — agora acessíveis para quem quer construir e vender projetos de IA com seriedade.</p>
+    <div class="hero-actions">
+      <a href="#pricing" class="btn-primary">Quero acesso completo</a>
+      <a href="#combo" class="btn-secondary">Ver o que está incluso</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat-item">
+        <div class="stat-number"><span>28</span></div>
+        <div class="stat-label">Cursos disponíveis</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number"><span>100</span><span style="font-size:1.4rem">+</span></div>
+        <div class="stat-label">Aulas gravadas</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number"><span>60</span><span style="font-size:1.4rem">h+</span></div>
+        <div class="stat-label">De conteúdo</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number"><span>8</span></div>
+        <div class="stat-label">Instrutores — todos C-Level da Pareto</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROBLEMA -->
+<section id="problema">
+  <div class="container">
+    <div class="inner">
+      <div>
+        <p class="label">O problema que a maioria enfrenta</p>
+        <div class="divider"></div>
+        <h2>Você aprende IA em fragmentos. Nenhum deles te prepara para a operação real.</h2>
+        <p style="margin-top:20px;">Cursos no YouTube ensinam ferramentas. Conteúdo no LinkedIn vende promessa. O que falta é a visão integrada de quem já executou mais de 500 projetos — e sabe onde os projetos de IA morrem, quanto antes do go-live.</p>
+        <p>Na Pareto, o conteúdo não foi criado para um curso. Foi criado para formar as pessoas que operam a empresa. Agora esse conteúdo está disponível para quem é de fora.</p>
+      </div>
+      <div class="quote-block">
+        <p class="quote-text">"A maioria dos profissionais de IA sabe usar as ferramentas. Poucos sabem o que fazer quando o cliente muda o escopo na semana 3, quando o LLM alucina em produção, ou quando a demo funcionou mas o projeto não escalou."</p>
+        <p class="quote-author">Ramon Palomo — CEO & Co-fundador da Pareto</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- O QUE VOCÊ ACESSA -->
+<section id="combo">
+  <div class="container">
+    <div class="section-header">
+      <p class="label">O que está incluso</p>
+      <div class="divider" style="margin:16px auto 20px;"></div>
+      <h2>Tudo que a Pareto gravou. Em um único plano.</h2>
+      <p>Da construção de agentes autônomos à gestão de pessoas, finanças e vendas — a biblioteca completa de quem opera projetos de IA há mais de uma década.</p>
+    </div>
+
+    <div class="combo-grid">
+      <!-- BLOCO 1: CURSOS PRINCIPAIS -->
+      <div class="combo-block">
+        <div class="combo-block-title">Cursos de IA na Prática</div>
+        <div class="combo-block-sub">Plano Professional — 13 cursos</div>
+        <ul class="course-list">
+
+          <li class="course-item">
+            <div class="course-icon"><svg viewBox="0 0 24 24"><path d="M5 3h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2zm7 3l-5 9h10L12 6z"/></svg></div>
+            <div class="course-info">
+              <div class="course-name">Agentes de IA na Prática: Automação por Eventos</div>
+              <div class="course-meta">5 aulas · 2h07min · Ramon Palomo</div>
+            </div>
+          </li>
+
+          <li class="course-item">
+            <div class="course-icon"><svg viewBox="0 0 24 24"><path d="M5 3h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2zm7 3l-5 9h10L12 6z"/></svg></div>
+            <div class="course-info">
+              <div class="course-name">Agente de Chat: do WhatsApp à Qualificação de Leads</div>
+              <div class="course-meta">4 aulas · 2h01min · Ramon Palomo</div>
+            </div>
+          </li>
+
+          <li class="course-item">
+            <div class="course-icon"><svg viewBox="0 0 24 24"><path d="M5 3h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2zm7 3l-5 9h10L12 6z"/></svg></div>
+            <div class="course-info">
+              <div class="course-name">Agentes Autônomos: Tickets, Supervisor de Vendas e Brand Voice</div>
+              <div class="course-meta">4 aulas · 2h05min · Ramon Palomo</div>
+            </div>
+          </li>
+
+          <li class="course-item">
+            <div class="course-icon"><svg viewBox="0 0 24 24"><path d="M5 3h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2zm7 3l-5 9h10L12 6z"/></svg></div>
+            <div class="course-info">
+              <div class="course-name">Agentes Multimodelos: Consenso entre IAs para Alta Precisão</div>
+              <div class="course-meta">6 aulas · 3h36min · Ramon Palomo</div>
+            </div>
+          </li>
+
+          <li class="course-item">
+            <div class="course-icon"><svg viewBox="0 0 24 24"><path d="M5 3h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2zm7 3l-5 9h10L12 6z"/></svg></div>
+            <div class="course-info">
+              <div class="course-name">Multiagentes Sequenciais: Conteúdo 10x e Playbooks Vivos</div>
+              <div class="course-meta">4 aulas · 1h56min · Ramon Palomo</div>
+            </div>
+          </li>
+
+          <li class="course-item">
+            <div class="course-icon"><svg viewBox="0 0 24 24"><path d="M5 3h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2zm7 3l-5 9h10L12 6z"/></svg></div>
+            <div class="course-info">
+              <div class="course-name">Otimização com Agentes: Reuniões, CRM, Vendas e Recrutamento</div>
+              <div class="course-meta">4 aulas · 1h59min · Ramon Palomo</div>
+            </div>
+          </li>
+
+          <li class="course-item">
+            <div class="course-icon"><svg viewBox="0 0 24 24"><path d="M5 3h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2zm7 3l-5 9h10L12 6z"/></svg></div>
+            <div class="course-info">
+              <div class="course-name">Criando Agente de IA no WhatsApp com Make e Tess AI</div>
+              <div class="course-meta">4 aulas · 1h29min · Ramon Palomo</div>
+            </div>
+          </li>
+
+          <li class="course-item">
+            <div class="course-icon"><svg viewBox="0 0 24 24"><path d="M5 3h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2zm7 3l-5 9h10L12 6z"/></svg></div>
+            <div class="course-info">
+              <div class="course-name">Workshops — AI Workflows</div>
+              <div class="course-meta">4 aulas · 5h46min · Ramon Palomo</div>
+            </div>
+          </li>
+
+          <li class="course-item">
+            <div class="course-icon"><svg viewBox="0 0 24 24"><path d="M5 3h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2zm7 3l-5 9h10L12 6z"/></svg></div>
+            <div class="course-info">
+              <div class="course-name">Workshops — Marketing &amp; Vendas</div>
+              <div class="course-meta">2 aulas · 3h18min · Ramon Palomo</div>
+            </div>
+          </li>
+
+          <li class="course-item">
+            <div class="course-icon"><svg viewBox="0 0 24 24"><path d="M5 3h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2zm7 3l-5 9h10L12 6z"/></svg></div>
+            <div class="course-info">
+              <div class="course-name">Workshops — Negócio, Gestão &amp; Estratégia</div>
+              <div class="course-meta">1 aula · 1h33min · Ramon Palomo</div>
+            </div>
+          </li>
+
+          <li class="course-item">
+            <div class="course-icon"><svg viewBox="0 0 24 24"><path d="M5 3h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2zm7 3l-5 9h10L12 6z"/></svg></div>
+            <div class="course-info">
+              <div class="course-name">Pareto Retail Day — Evento Exclusivo para Varejo</div>
+              <div class="course-meta">12 aulas · 6h10min · Time Pareto</div>
+            </div>
+          </li>
+
+          <li class="course-item">
+            <div class="course-icon"><svg viewBox="0 0 24 24"><path d="M5 3h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2zm7 3l-5 9h10L12 6z"/></svg></div>
+            <div class="course-info">
+              <div class="course-name">Bootcamp Pareto AI</div>
+              <div class="course-meta">3 aulas · 1h47min · Ramon Palomo</div>
+            </div>
+          </li>
+
+        </ul>
+      </div>
+
+      <!-- BLOCO 2: BÔNUS ESCOLA DE LÍDERES -->
+      <div class="combo-block">
+        <span class="bonus-badge">Bônus incluído</span>
+        <div class="combo-block-title">Escola de Líderes</div>
+        <div class="combo-block-sub">9 cursos de formação executiva</div>
+        <ul class="course-list">
+
+          <li class="course-item">
+            <div class="course-icon"><svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg></div>
+            <div class="course-info">
+              <div class="course-name">Formação Executiva</div>
+              <div class="course-meta">21 aulas · 7h03min · Rica Barros, fundador da Pareto</div>
+            </div>
+          </li>
+
+          <li class="course-item">
+            <div class="course-icon"><svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg></div>
+            <div class="course-info">
+              <div class="course-name">Gestão Analítica</div>
+              <div class="course-meta">13 aulas · 4h34min · Ramon Palomo</div>
+            </div>
+          </li>
+
+          <li class="course-item">
+            <div class="course-icon"><svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg></div>
+            <div class="course-info">
+              <div class="course-name">Marketing Estratégico</div>
+              <div class="course-meta">8 aulas · 3h35min · Vínicius Chacon, VP de Marketing</div>
+            </div>
+          </li>
+
+          <li class="course-item">
+            <div class="course-icon"><svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg></div>
+            <div class="course-info">
+              <div class="course-name">Formação Humana Pt. 2 — Soft Skills para C-Level</div>
+              <div class="course-meta">10 aulas · 4h43min · Renato Ferreira, COO da Pareto</div>
+            </div>
+          </li>
+
+          <li class="course-item">
+            <div class="course-icon"><svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg></div>
+            <div class="course-info">
+              <div class="course-name">Gestão Operacional</div>
+              <div class="course-meta">12 aulas · 3h24min · Milena Maia, VP de Operações</div>
+            </div>
+          </li>
+
+          <li class="course-item">
+            <div class="course-icon"><svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg></div>
+            <div class="course-info">
+              <div class="course-name">Gestão de Pessoas</div>
+              <div class="course-meta">6 aulas · 2h04min · Paulo Dias</div>
+            </div>
+          </li>
+
+          <li class="course-item">
+            <div class="course-icon"><svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg></div>
+            <div class="course-info">
+              <div class="course-name">Finanças Corporativas</div>
+              <div class="course-meta">5 aulas · 1h15min · Gabriel Rodrigues, CFO</div>
+            </div>
+          </li>
+
+          <li class="course-item">
+            <div class="course-icon"><svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg></div>
+            <div class="course-info">
+              <div class="course-name">Automações para Mídia (RPAs)</div>
+              <div class="course-meta">6 aulas · 1h18min · Jair Braga</div>
+            </div>
+          </li>
+
+          <li class="course-item">
+            <div class="course-icon"><svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg></div>
+            <div class="course-info">
+              <div class="course-name">Formação Humana Pt. 1 — Liderança Virtuosa</div>
+              <div class="course-meta">10 aulas · 1h43min · Paulo Dias</div>
+            </div>
+          </li>
+
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- INSTRUTORES -->
+<section id="instrutores">
+  <div class="container">
+    <div class="section-header">
+      <p class="label">Quem ensina</p>
+      <div class="divider"></div>
+      <h2>Nenhum instrutor contratado para gravar curso.</h2>
+      <p style="margin-top:16px;">Todos os instrutores são liderança ativa da Pareto. O que eles ensinam é o que eles fazem — ou fizeram — para construir uma empresa com 300+ clientes ativos.</p>
+    </div>
+    <div class="instructors-grid">
+
+      <div class="instructor-card">
+        <div class="instructor-name">Ramon Palomo</div>
+        <div class="instructor-role">CEO &amp; Co-fundador</div>
+        <p class="instructor-bio">Engenheiro de Controle e Automação pela UFRJ, formação na Universidade Técnica de Munique. Professor de IA e Dados em MBAs. Mais de 10 anos executando projetos de IA e análise de dados.</p>
+      </div>
+
+      <div class="instructor-card">
+        <div class="instructor-name">Rica Barros</div>
+        <div class="instructor-role">Fundador &amp; Membro do Conselho</div>
+        <p class="instructor-bio">Saiu do zero e construiu uma empresa líder internacional em IA, com clientes em mais de 100 países. No curso de Formação Executiva, resume as principais lições dessa trajetória.</p>
+      </div>
+
+      <div class="instructor-card">
+        <div class="instructor-name">Vínicius Chacon</div>
+        <div class="instructor-role">VP de Marketing</div>
+        <p class="instructor-bio">Condensou anos de pesquisa sobre executivos globais de marketing em um curso prático para quem quer atuar estrategicamente — não apenas operacionalmente — na área.</p>
+      </div>
+
+      <div class="instructor-card">
+        <div class="instructor-name">Renato Ferreira</div>
+        <div class="instructor-role">COO</div>
+        <p class="instructor-bio">Centenas de contratos negociados. Milhares de empreendedores analisados. Hoje lidera a operação da Pareto Plus. No curso, apresenta os padrões de profissionais que ordenam sua relação com o trabalho.</p>
+      </div>
+
+      <div class="instructor-card">
+        <div class="instructor-name">Gabriel Rodrigues</div>
+        <div class="instructor-role">CFO</div>
+        <p class="instructor-bio">Ensina tesouraria, controladoria e planejamento financeiro com base na realidade de uma empresa de crescimento acelerado — sem simplificações que não sobrevivem ao primeiro mês de operação.</p>
+      </div>
+
+      <div class="instructor-card">
+        <div class="instructor-name">Milena Maia</div>
+        <div class="instructor-role">VP de Operações</div>
+        <p class="instructor-bio">Responsável por estruturar os processos de sustentação da operação que resultaram nos indicadores de retenção e qualidade técnica da Pareto. Ensina o que documentou em anos à frente da operação.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- NÚMEROS -->
+<section id="numeros">
+  <div class="container">
+    <div class="section-header">
+      <p class="label">Pareto em números</p>
+      <h2>Uma empresa que construiu credibilidade antes de o mercado saber o que era IA.</h2>
+      <p>Fundada em 2012. Premiada 16 vezes pelo Google. Mais de 500 projetos entregues.</p>
+    </div>
+    <div class="numbers-grid">
+      <div class="number-card">
+        <div class="number-val"><span>12</span></div>
+        <div class="number-desc">Anos de projetos de IA — antes do boom de 2023</div>
+      </div>
+      <div class="number-card">
+        <div class="number-val"><span>300</span><span style="font-size:1.6rem">+</span></div>
+        <div class="number-desc">Clientes ativos hoje</div>
+      </div>
+      <div class="number-card">
+        <div class="number-val"><span>500</span><span style="font-size:1.6rem">+</span></div>
+        <div class="number-desc">Projetos de IA entregues</div>
+      </div>
+      <div class="number-card">
+        <div class="number-val"><span>16</span></div>
+        <div class="number-desc">Prêmios globais do Google em 10 anos</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PARA QUEM -->
+<section id="paraquem">
+  <div class="container">
+    <div class="section-header">
+      <p class="label">Para quem é</p>
+      <div class="divider"></div>
+      <h2>Para quem já decidiu que IA não é hobby.</h2>
+    </div>
+    <div class="profiles-grid">
+
+      <div class="profile-card">
+        <div class="profile-tag">Perfil 01</div>
+        <div class="profile-title">Quem quer construir agentes de IA que funcionam em produção</div>
+        <p class="profile-desc">Você sabe usar ChatGPT. Já testou N8N. Mas ainda não colocou nada em produção de verdade para um cliente pagante. Os cursos de agentes da Pareto cobrem a arquitetura, as integrações e os casos que quebram quando a demo vira realidade.</p>
+      </div>
+
+      <div class="profile-card">
+        <div class="profile-tag">Perfil 02</div>
+        <div class="profile-title">Profissionais que querem vender projetos de IA — não apenas executar</div>
+        <p class="profile-desc">Saber fazer e saber vender são habilidades diferentes. Os workshops de Marketing, Vendas e Negócios foram gravados para quem precisa fechar contrato, não só entregar projeto.</p>
+      </div>
+
+      <div class="profile-card">
+        <div class="profile-tag">Perfil 03</div>
+        <div class="profile-title">Líderes que precisam operar empresas de tecnologia com eficiência</div>
+        <p class="profile-desc">A Escola de Líderes cobre o que não está no MBA: como a Pareto estruturou RH, operações, finanças e cultura para escalar com qualidade. Ensinado por quem construiu — não por quem estudou.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section id="pricing">
+  <div class="container">
+    <div class="section-header">
+      <p class="label">Acesso</p>
+      <div class="divider" style="margin:16px auto 20px;"></div>
+      <h2>Um plano. Acesso a tudo.</h2>
+      <p>Sem separar cursos por avulso. Sem pagar extra pelo bônus. Uma assinatura dá acesso a todos os 28 cursos dentro da plataforma Pareto AI.</p>
+    </div>
+
+    <div class="pricing-card">
+      <span class="pricing-tag">Plano Professional</span>
+      <div class="pricing-title">Biblioteca Completa Pareto AI</div>
+      <p class="pricing-sub">Acesso integral à plataforma Pareto AI com todos os cursos gravados, novos conteúdos conforme forem adicionados.</p>
+
+      <ul class="pricing-items">
+        <li class="pricing-item">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--lime-dim)" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+          13 cursos de IA na Prática — agentes, automações, multiagentes
+        </li>
+        <li class="pricing-item">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--lime-dim)" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+          9 cursos da Escola de Líderes — formação executiva completa (bônus)
+        </li>
+        <li class="pricing-item">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--lime-dim)" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+          Mais de 100 aulas e 60h de conteúdo gravado
+        </li>
+        <li class="pricing-item">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--lime-dim)" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+          Acesso via plataforma Pareto AI — disponível no navegador
+        </li>
+        <li class="pricing-item">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--lime-dim)" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+          Novos cursos e workshops adicionados sem custo extra
+        </li>
+        <li class="pricing-item">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--lime-dim)" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+          Conteúdo de instrutores que são liderança ativa da Pareto
+        </li>
+      </ul>
+
+      <div style="text-align:center;">
+        <a href="https://pareto.ai" class="btn-primary" style="width:100%; display:block; text-align:center;">Quero acesso ao plano Professional</a>
+        <p class="pricing-note" style="margin-top:14px;">Acesso imediato após contratação · Disponível em pareto.ai</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq">
+  <div class="container">
+    <div class="section-header">
+      <p class="label">Perguntas frequentes</p>
+      <div class="divider"></div>
+      <h2>Dúvidas antes de assinar.</h2>
+    </div>
+    <div class="faq-list">
+
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false" onclick="toggleFaq(this)">
+          Como acesso os cursos depois de assinar?
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+        <div class="faq-answer">Após a contratação do plano Professional, seu acesso é liberado na plataforma Pareto AI (pareto.ai). Todos os cursos ficam disponíveis no menu lateral da plataforma, organizados por categoria. Sem download necessário — tudo roda no navegador.</div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false" onclick="toggleFaq(this)">
+          Os cursos têm validade ou posso assistir no meu ritmo?
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+        <div class="faq-answer">Enquanto o plano estiver ativo, o acesso é contínuo. Você assiste no seu ritmo, pausa, retoma. O sistema salva seu progresso por curso e por aula.</div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false" onclick="toggleFaq(this)">
+          Quem são os instrutores? São profissionais externos ou da própria Pareto?
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+        <div class="faq-answer">Todos os instrutores são liderança ativa da Pareto: CEO, fundador, VP de Marketing, COO, VP de Operações, CFO. O conteúdo não foi criado para ser vendido — foi criado para formar as pessoas que operam a empresa. Você acessa esse conteúdo de formação interna.</div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false" onclick="toggleFaq(this)">
+          O plano Professional inclui apenas os cursos ou tem outros benefícios?
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+        <div class="faq-answer">O plano Professional dá acesso a toda a plataforma Pareto AI no nível Professional — que inclui os cursos desta página, além de outros recursos da plataforma conforme disponibilidade. Consulte pareto.ai para a lista completa de benefícios do plano.</div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false" onclick="toggleFaq(this)">
+          O conteúdo é atualizado? Novos cursos são adicionados?
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+        <div class="faq-answer">Sim. Novos workshops e cursos são adicionados à plataforma conforme são gravados. Assinantes do plano Professional têm acesso a todo conteúdo novo sem custo adicional.</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- CTA FINAL -->
+<section id="cta-final">
+  <div class="container">
+    <p class="label">Comece agora</p>
+    <h2>O conhecimento que a Pareto construiu em 12 anos está disponível para você.</h2>
+    <p>Mais de 60 horas de conteúdo. Instrutores que são C-Level. Um único acesso.</p>
+    <a href="https://pareto.ai" class="btn-primary" style="font-size:0.85rem; padding:18px 48px;">Acessar plano Professional</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-logo">Pareto.</div>
+    <p class="footer-copy">© 2026 Pareto Group. Todos os direitos reservados.</p>
+  </div>
+</footer>
+
+<script>
+  function toggleFaq(btn) {
+    const answer = btn.nextElementSibling;
+    const isOpen = btn.getAttribute('aria-expanded') === 'true';
+    // close all
+    document.querySelectorAll('.faq-question').forEach(b => {
+      b.setAttribute('aria-expanded', 'false');
+      b.nextElementSibling.classList.remove('open');
+    });
+    // open clicked if was closed
+    if (!isOpen) {
+      btn.setAttribute('aria-expanded', 'true');
+      answer.classList.add('open');
+    }
+  }
+</script>
+
+</body>
+</html>
