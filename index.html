@@ -7,7 +7,7 @@
   <meta name="description" content="Acesse todos os cursos gravados da Pareto: agentes de IA, multiagentes, automações, formação executiva e mais. Uma assinatura, acesso completo." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght+600;700&family=DM+Sans:wght+300;400;500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
   <style>
     :root {
       --lime:     #CBEC2E;
@@ -103,6 +103,13 @@
     .instructor-name { font-family: var(--font-head); font-size: 1.1rem; font-weight: 700; color: var(--g900); margin-bottom: 4px; }
     .instructor-role { font-size: 0.78rem; color: var(--lime-dim); font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 14px; }
     .instructor-bio { font-size: 0.88rem; line-height: 1.65; }
+
+    /* OUTROS INSTRUTORES */
+    .others-block { margin-top: 40px; padding: 36px; background: var(--off); border-top: 2px solid var(--lime); }
+    .others-title { font-family: var(--font-head); font-size: 1.1rem; font-weight: 700; color: var(--g900); margin-bottom: 16px; }
+    .others-tags { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 16px; }
+    .others-tag { font-size: 0.78rem; font-weight: 500; letter-spacing: 0.06em; color: var(--g600); background: var(--white); border: 1px solid var(--g200); padding: 6px 14px; }
+    .others-desc { font-size: 0.88rem; color: var(--g400); line-height: 1.65; }
 
     /* NUMEROS */
     #numeros { background: var(--g900); }
@@ -272,15 +279,15 @@
       <h2>Especialistas que constroem, não apenas ensinam.</h2>
       <p style="margin-top:16px;">Cada instrutor tem histórico real na construção da Pareto ou de empresas de IA. O conteúdo não foi produzido para um curso — foi produzido para formar quem opera projetos de IA no dia a dia.</p>
     </div>
-    <div class="instructors-grid">
+    <div class="instructors-grid" style="grid-template-columns: repeat(3, 1fr);">
       <div class="instructor-card">
         <div class="instructor-name">Ramon Palomo</div>
-        <div class="instructor-role">CEO &amp; Co-fundador — Pareto</div>
+        <div class="instructor-role">Co-fundador — Pareto</div>
         <p class="instructor-bio">Engenheiro de Controle e Automação pela UFRJ com formação na Universidade Técnica de Munique. Professor de IA e Dados em MBAs. Mais de 10 anos executando projetos de IA e análise de dados para empresas de médio e grande porte.</p>
       </div>
       <div class="instructor-card">
         <div class="instructor-name">Rica Barros</div>
-        <div class="instructor-role">Fundador — Pareto</div>
+        <div class="instructor-role">Co-fundador — Pareto</div>
         <p class="instructor-bio">Construiu a Pareto do zero até uma empresa líder internacional em IA, com clientes em mais de 100 países. No curso de Formação Executiva, resume as principais lições dessa trajetória — de vendas a gestão e expansão global.</p>
       </div>
       <div class="instructor-card">
@@ -288,21 +295,17 @@
         <div class="instructor-role">CFO — Pareto Group</div>
         <p class="instructor-bio">Ensina tesouraria, controladoria e planejamento financeiro com base na realidade de uma empresa de crescimento acelerado — sem simplificações que não sobrevivem ao primeiro mês de operação real.</p>
       </div>
-      <div class="instructor-card">
-        <div class="instructor-name">Paulo Dias</div>
-        <div class="instructor-role">Head de Pessoas — Pareto</div>
-        <p class="instructor-bio">Responsável pela construção da área de Pessoas da Pareto. Em seus cursos, cobre desde os ritos de gestão de times até formação de liderança baseada em virtudes e pensamento crítico.</p>
+    </div>
+    <div class="others-block">
+      <div class="others-title">Também ensinam nesta biblioteca</div>
+      <div class="others-tags">
+        <span class="others-tag">Head de Pessoas</span>
+        <span class="others-tag">VP de Marketing</span>
+        <span class="others-tag">COO</span>
+        <span class="others-tag">Especialista em Automações de Mídia</span>
+        <span class="others-tag">Especialista em IA Generativa</span>
       </div>
-      <div class="instructor-card">
-        <div class="instructor-name">Renato Ferreira</div>
-        <div class="instructor-role">COO — Pareto</div>
-        <p class="instructor-bio">Centenas de contratos negociados. Milhares de empreendedores analisados. Apresenta os padrões de profissionais que conseguem ordenar sua relação com o trabalho — desenvolvidos ao longo de anos liderando operações complexas.</p>
-      </div>
-      <div class="instructor-card">
-        <div class="instructor-name">Jair Braga</div>
-        <div class="instructor-role">Especialista em Automações — Pareto</div>
-        <p class="instructor-bio">Cobre as principais automações de mídia do stack de tecnologia da Pareto — as mesmas RPAs utilizadas por milhares de clientes para automatizar rotinas de especialistas de mídia paga.</p>
-      </div>
+      <p class="others-desc">Profissionais com histórico real na operação da Pareto e em empresas parceiras — cada um responsável por uma área específica do conteúdo desta biblioteca.</p>
     </div>
   </div>
 </section>
@@ -310,9 +313,11 @@
 <!-- NÚMEROS -->
 <section id="numeros">
   <div class="container">
-    <p class="label">Pareto em números</p>
-    <h2 style="margin-top:12px;">Uma empresa que construiu credibilidade antes de o mercado saber o que era IA.</h2>
-    <p style="margin-top:16px; max-width:500px;">Fundada em 2012. Premiada 16 vezes pelo Google. Mais de 500 projetos entregues.</p>
+    <div class="section-header" style="max-width:520px;">
+      <p class="label">Pareto em números</p>
+      <h2 style="color:var(--white); margin-top:12px;">Uma empresa que construiu credibilidade antes de o mercado saber o que era IA.</h2>
+      <p style="margin-top:16px;">Fundada em 2012. Premiada 16 vezes pelo Google. Mais de 500 projetos entregues.</p>
+    </div>
     <div class="numbers-grid">
       <div class="number-card">
         <div class="number-val"><span>12</span></div>
@@ -372,9 +377,9 @@
       <p>Sem separar cursos por avulso. Sem pagar extra pelo bônus. Uma assinatura dá acesso a todos os 28 cursos dentro da plataforma Pareto AI.</p>
     </div>
     <div class="pricing-card">
-      <span class="pricing-tag">Plano Professional</span>
-      <div class="pricing-title">Biblioteca Completa Pareto AI</div>
-      <p class="pricing-sub">Acesso integral à plataforma Pareto AI com todos os cursos gravados, novos conteúdos conforme forem adicionados.</p>
+      <span class="pricing-tag">Biblioteca de Cursos Pareto AI</span>
+      <div class="pricing-title">Acesso completo à biblioteca de cursos</div>
+      <p class="pricing-sub">Acesso a todos os cursos gravados desta biblioteca, incluindo os novos que forem adicionados durante o período de validade.</p>
       <ul class="pricing-items">
         <li class="pricing-item">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#A8C41E" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
@@ -398,12 +403,12 @@
         </li>
         <li class="pricing-item">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#A8C41E" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-          Conteúdo de quem opera projetos de IA há mais de 12 anos
+          Validade de 1 ano — acesso a tudo que for adicionado nesse período
         </li>
       </ul>
       <div style="text-align:center;">
-        <a href="https://pareto.ai" class="btn-primary" style="width:100%; display:block; text-align:center;">Quero acesso ao plano Professional</a>
-        <p class="pricing-note" style="margin-top:14px;">Acesso imediato após contratação · Disponível em pareto.ai</p>
+        <a href="https://pareto.ai" class="btn-primary" style="width:100%; display:block; text-align:center;">Quero acessar minha biblioteca</a>
+        <p class="pricing-note" style="margin-top:14px;">Acesso imediato após contratação · Validade de 1 ano</p>
       </div>
     </div>
   </div>
@@ -430,7 +435,7 @@
           Os cursos têm validade ou posso assistir no meu ritmo?
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
         </button>
-        <div class="faq-answer">Enquanto o plano estiver ativo, o acesso é contínuo. Você assiste no seu ritmo, pausa, retoma. O sistema salva seu progresso por curso e por aula.</div>
+        <div class="faq-answer">Você assiste no seu ritmo, dentro do período de validade de 1 ano. Pode pausar, retomar e voltar quantas vezes quiser. O sistema salva seu progresso por curso e por aula.</div>
       </div>
       <div class="faq-item">
         <button class="faq-question" aria-expanded="false" onclick="toggleFaq(this)">
@@ -441,10 +446,10 @@
       </div>
       <div class="faq-item">
         <button class="faq-question" aria-expanded="false" onclick="toggleFaq(this)">
-          O plano Professional inclui apenas os cursos?
+          Qual é a validade do acesso?
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
         </button>
-        <div class="faq-answer">O plano Professional dá acesso a toda a plataforma Pareto AI no nível Professional — que inclui os cursos desta página, além de outros recursos da plataforma. Consulte pareto.ai para a lista completa de benefícios.</div>
+        <div class="faq-answer">O acesso tem validade de 1 ano. Durante esse período, você assiste a todos os cursos disponíveis e a qualquer novo curso que for adicionado à biblioteca — sem custo adicional.</div>
       </div>
       <div class="faq-item">
         <button class="faq-question" aria-expanded="false" onclick="toggleFaq(this)">
@@ -463,7 +468,7 @@
     <p class="label">Comece agora</p>
     <h2>O conhecimento que a Pareto construiu em 12 anos está disponível para você.</h2>
     <p>Mais de 60 horas de conteúdo. Instrutores com histórico real. Um único acesso.</p>
-    <a href="https://pareto.ai" class="btn-primary" style="font-size:0.85rem; padding:18px 48px;">Acessar plano Professional</a>
+    <a href="https://pareto.ai" class="btn-primary" style="font-size:0.85rem; padding:18px 48px;">Quero acessar minha biblioteca</a>
   </div>
 </section>
 
